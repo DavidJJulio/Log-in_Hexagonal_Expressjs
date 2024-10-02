@@ -1,0 +1,24 @@
+{
+  "name": "log-in_hexagonal_expressjs",
+  "version": "1.0.0",
+  "description": "Esta es una plantilla de un sistema de LOG-IN aplicando estructura hexagonal con Node.js junto con Express.js y MongoDB Se hará uso de la libreria Passport.js para manejar las sesiones.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch --env-file .env app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.2.0",
+    "mongodb": "^6.9.0",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0"
+  }
+}
