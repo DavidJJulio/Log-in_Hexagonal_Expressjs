@@ -86,7 +86,13 @@ class User {
             ).toArray();
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -133,7 +139,13 @@ class User {
             ).toArray();
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -180,7 +192,13 @@ class User {
             ).toArray();
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -225,7 +243,13 @@ class User {
             );
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -272,7 +296,13 @@ class User {
             );
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -320,7 +350,13 @@ class User {
             );
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -368,7 +404,13 @@ class User {
             );
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -412,7 +454,13 @@ class User {
             );
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -455,7 +503,13 @@ class User {
             ).toArray();
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+            
 
         } catch (error) {
 
