@@ -33,7 +33,13 @@ class User {
             ).toArray();
 
 
-            return res;
+            return {
+
+                success: true,
+                data: res
+
+            }
+
 
         } catch (error) {
 
@@ -41,6 +47,7 @@ class User {
 
                 success: false,
                 message: "Error al buscar usuario por su MongoId",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -87,6 +94,7 @@ class User {
 
                 success: false,
                 message: "Error al buscar usuario por su GoogleId",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -133,6 +141,7 @@ class User {
 
                 success: false,
                 message: "Error al buscar usuario por su GithubId",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -179,6 +188,7 @@ class User {
 
                 success: false,
                 message: "Error al buscar usuario por su DiscordId",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -223,6 +233,7 @@ class User {
 
                 success: false,
                 message: "Error al insertar un usuario a la base de datos",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -269,6 +280,7 @@ class User {
 
                 success: false,
                 message: "Error al actualizar usuario en la base de datos",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -316,6 +328,7 @@ class User {
 
                 success: false,
                 message: "Error al actualizar usuario en la base de datos",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -363,6 +376,7 @@ class User {
 
                 success: false,
                 message: "Error al actualizar usuario en la base de datos",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -406,6 +420,7 @@ class User {
 
                 success: false,
                 message: "Error al eliminar usuario en la base de datos",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
@@ -448,6 +463,7 @@ class User {
 
                 success: false,
                 message: "Error al realizar la consulta aggregate",
+                location: "UserModel",
                 details: error.details,
                 stack: error.stack
 
