@@ -1,548 +1,396 @@
-const { ObjectId } = require("mongodb");
-const User = require("../../domain/model/userModel");
+//  MODULE THAT COORDINATES INTERACTIONS BETWEEN THE DOMAIN AND THE APPLICATION
+
+//  IMPORTS
+
+const userRepository = require('../../domain/repository/userRepository')
 
 
 
-//  Definimos la clase que interactuará con el dominio de la aplicación
+//  Class to manage a common error we are going to be sending a lot of times (hopefully not)
 
-class UserServices {
-
-
-
-    //  Instanciamos la clase del modelo en el mismo constructor, para no tener que instanciarla cada vez que ejecutemos una funcion
-
-    constructor() {
-
-        this.userModel = new User()
-
+class NotFoundError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "NotFoundError";
+        this.status = 404;
     }
-
-
-
-
-
-
-    /**
-     * Buscar un usuario por su MongoId.
-     * 
-     * @param {ObjectId} id - ObjectId en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorMongoIdServices(id) {
-
-        try {
-            
-            const usuario = await this.userModel.buscarPorMongoId(id)
-
-            return usuario
-            
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su MongoId",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-            
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Buscar un usuario por su GoogleId.
-     * 
-     * @param {String} id - Id en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorGoogleIdServices(id) {
-
-        try {
-
-            const usuario = await this.userModel.buscarPorGoogleId(id);
-
-            return usuario;
-
-        } catch (error) {
-
-            return {
-                
-                success: false,
-                message: "Error al buscar usuario por su GoogleId",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Buscar un usuario por su GithubId.
-     * 
-     * @param {String} id - Id en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorGithubIdServices(id) {
-
-        try {
-
-            const usuario = await this.userModel.buscarPorGithubId(id);
-
-            return usuario;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su GithubId",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Buscar un usuario por su DiscordId.
-     * 
-     * @param {String} id - Id en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorDiscordIdServices(id) {
-
-        try {
-
-            const usuario = await this.userModel.buscarPorDiscordId(id);
-
-            return usuario;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su DiscordId",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-    }
-
-
-
-
-
-
-    /**
-     * Insertar un nuevo usuario en la base de datos.
-     * 
-     * @param {Object} userData - Objeto con los datos del usuario
-     * @returns {Promise<Object>} Objeto con los detalles de la inserccion
-     * @error Objeto con detalles del error
-     */
-
-    async insertarUsuarioServices(userData) {
-
-        try {
-
-            const res = await this.userModel.InsertarUsuario(userData);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al insertar un usuario",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Actualiza un usuario en base a su MongoId
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @param {Object} updateData - Objeto con la llave y el valor a actualiza ({"llave": "String", "valor": "String"})
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async actualizarUsuarioPorMongoIdServices(id, updateData) {
-
-        try {
-
-            const res = await this.userModel.actualizarUsuarioPorMongoId(id, updateData);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al actualizar usuario por su MongoId",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Inserta elementos en cualquier atributo tipo array que un usuario tenga. Por ejemplo si tiene una llave {favorites: []}
-     * este metodo insertara elementos en el array de favorites
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @param {Object} Object - Objeto con la llave y un array de objetos a insertar ({"llave": "String", "Array": []})
-     * @returns {Promise<Object>} Objeto con los detalles de la operacion realizada
-     * @error Objeto con detalles del error
-     */
-
-    async actualizarLlavesArray_PushServices(id, object) {
-
-        try {
-
-            const res = await this.userModel.actualizarLlavesArray_Push(id, object);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al actualizar array en el usuario",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Extrae elementos en cualquier atributo tipo array que un usuario tenga. Por ejemplo si tiene una llave {favorites: []}
-     * este metodo extraera elementos en el array de favorites
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @param {Object} Object - Objeto con la llave y un array de objetos a eliminar ({"llave": "String", "Array": []})
-     * @returns {Promise<Object>} Objeto con los detalles de la operacion realizada
-     * @error Objeto con detalles del error
-     */
-
-    async actualizarLlavesArray_PullServices(id, object) {
-
-        try {
-
-            const res = await this.userModel.actualizarLlavesArray_Pull(id, object);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al actualizar array en el usuario",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Elimina a un usuario de la base de datos en base a su MongoId
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @returns {Promise<Object>} Objeto con los detalles de la operacion realizada
-     * @error Objeto con detalles del error
-     */
-
-    async eliminarUsuarioPorMongoIdServices(id) {
-
-        try {
-
-            const res = await this.userModel.eliminarUsuarioPorMongoId(id);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al eliminar usuario por su MongoId",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Realiza una consulta aggregate
-     * 
-     * @param {Object} data - Array con la consulta aggregate.
-     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
-     * @error Objeto con detalles del error
-     */
-
-    async consultaAggregateServices(data) {
-
-        try {
-
-            const res = await this.userModel.consultaAggregate(data);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al realizar consulta aggregate",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Realiza una consulta aggregate
-     * 
-     * @param {Object} data - Objeto con los datos del usuario.
-     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
-     * @error Objeto con detalles del error
-     */
-
-    async buscarUsuario_PorSuCorreo_QueNoSeaAutenticadoExternamente(data) {
-
-        try {
-
-            const query = [
-
-                {
-
-                  $match: {
-
-                    email: data.email,
-                    type: "usuario"     
-
-                  }
-
-                }
-
-              ]
-
-            const res = await this.userModel.consultaAggregate(query);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al realizar consulta aggregate",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Realiza una consulta aggregate
-     * 
-     * @param {Object} data - Objeto con los datos del usuario.
-     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
-     * @error Objeto con detalles del error
-     */
-
-    async buscarUsuario_PorUsuario_QueNoSeaAutenticadoExternamente(data) {
-
-        try {
-
-            const query = [
-
-                {
-
-                  $match: {
-
-                    nickName: data.nickName,     
-
-                  }
-
-                }
-
-              ]
-
-            const res = await this.userModel.consultaAggregate(query);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al realizar consulta aggregate",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-    /**
-     * Realiza una consulta aggregate
-     * 
-     * @param {Object} data - Objeto con los datos del usuario.
-     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
-     * @error Objeto con detalles del error
-     */
-
-    async buscarUsuario_PorSuIdentificador_QueNoSeaAutenticadoExternamente(data) {
-
-        try {
-
-            const query = [
-
-                {
-
-                  $match: {
-
-                    identifier: data.identifier,     
-
-                  }
-
-                }
-
-              ]
-
-            const res = await this.userModel.consultaAggregate(query);
-
-            return res;
-
-        } catch (error) {
-
-            return {
-
-                success: false,
-                message: "Error al realizar consulta aggregate",
-                location: "UserServices",
-                details: error.details,
-                stack: error.stack
-            }
-
-        }
-
-    }
-
-
 }
 
 
-module.exports = UserServices
+class userService {
+
+    //  The constructor, the function that is executed when we are instantiating the class
+    //  is going to instantiate the class userRepository, because userService needs this class
+    //  to work
+
+    constructor(){
+
+        this.userRepository = new userRepository()
+
+    }
+
+    //  Method to create a user from the google authentication
+
+    async createGoogleUser(data) {
+
+        try {
+
+            let insertUser = {
+                
+                google_id: data.sub,
+                nickName: data.name,
+                password: "Unknown",
+                email: data.email,
+                profilePicture: data.picture,
+                address: "",
+                phone: "",
+                type: "usuario",
+                favorites: [],
+                purchases: [],
+                registeredWorkshops: [],
+                coupons: []
+    
+            }
+    
+            const user = await this.userRepository.insertarUsuario(insertUser);
+
+            return user;
+    
+            } catch (error) {
+                
+                throw error
+                
+        }
+
+    }
+
+
+    async createGithubUser(data) {
+
+        try {
+
+            let insertUser = {
+                
+                github_id: data.id,
+                nickName: data.login,
+                password: "Unknown",
+                email: data.email,
+                profilePicture: data.avatar_url,
+                address: "",
+                phone: "",
+                type: "usuario",
+                favorites: [],
+                purchases: [],
+                registeredWorkshops: [],
+                coupons: []
+    
+            }
+    
+            const user = await this.userRepository.insertarUsuario(insertUser);
+
+            return user;
+    
+            } catch (error) {
+                
+                throw error
+                
+        }
+
+    }
+
+    async createDiscordUser(data) {
+
+        try {
+
+            let insertUser = {
+                
+                discord_id: data.id,
+                nickName: data.username,
+                password: "Unknown",
+                email: data.email,
+                profilePicture: null,
+                address: "",
+                phone: "",
+                type: "usuario",
+                favorites: [],
+                purchases: [],
+                registeredWorkshops: [],
+                coupons: []
+    
+            }
+    
+            const user = await this.userRepository.insertarUsuario(insertUser);
+
+            return user;
+    
+            } catch (error) {
+                
+                throw error
+                
+        }
+
+    }
+
+
+    //  Method to get a user by the google_id
+
+    async getUserByIdGoogle(id){
+        try {
+            
+        //  We execute the method
+        const user = await this.userRepository.buscarUsuarioPorIDGoogle(id);
+
+        //  If the result is an empty array, or undefined
+        if (!user) {
+
+            //  We instantiate the errors class we created at the beginning
+            return new NotFoundError('User not found')
+
+        }
+
+        //  If the result is a user, then return that.
+        return user;
+
+        } catch (error) {
+            
+            throw error
+            
+        }
+
+    }
+
+    async getUserByIdDiscord(id){
+        try {
+            
+        //  We execute the method
+        const user = await this.userRepository.buscarUsuarioPorIDDiscord(id);
+
+        //  If the result is an empty array, or undefined
+        if (!user) {
+
+            //  We instantiate the errors class we created at the beginning
+            return new NotFoundError('User not found')
+
+        }
+
+        //  If the result is a user, then return that.
+        return user;
+
+        } catch (error) {
+            
+            throw error
+            
+        }
+
+    }
+
+
+    async getUserByIdGithub(id){
+        try {
+            
+        //  We execute the method
+        const user = await this.userRepository.buscarUsuarioPorIDGithub(id);
+
+        //  If the result is an empty array, or undefined
+        if (!user) {
+
+            //  We instantiate the errors class we created at the beginning
+            return new NotFoundError('User not found')
+
+        }
+
+        //  If the result is a user, then return that.
+        return user;
+
+        } catch (error) {
+            
+            throw error
+            
+        }
+
+    }
+
+
+    //  Method that it's going to find any user with the id that matches
+    
+    async getUserById(id){
+        try {
+            
+        //  We execute the method
+        const user = await this.userRepository.buscarUsuarioPorID(id);
+
+        //  If the result is an empty array, or undefined
+        if (!user) {
+
+            //  We instantiate the errors class we created at the beginning
+            return new NotFoundError('User not found')
+
+        }
+
+        //  If the result is a user, then return that.
+        return user;
+
+        } catch (error) {
+            
+            throw error
+            
+        }
+
+    }
+
+
+    //  Method that it's going to find any user with the matched nickname 
+
+    async getUserByIdentifier(identifier){
+
+        try {
+            
+            const [user] = await this.userRepository.buscarUsuarioPorIdentifier(identifier)
+            if (!user) {
+                
+                return new NotFoundError('User not found')
+
+            }
+
+            return user
+
+        } catch (error) {
+            
+            throw error
+
+        }
+        
+    }
+
+
+    //  Method that it's going get and or validate the password of a user
+
+    async validateUserByPasswordAndNick({password: password, nickName: nickname}){
+
+        try {
+            
+            const [user] = await this.userRepository.buscarUsuarioPorNickname(nickname)
+            if (!user) {
+
+                return new NotFoundError('User not found')
+
+            }
+
+            const token = await this.userRepository.validarUsuarioContraseñaJWT({user: user, contraseña: password})
+            if (token.status != undefined) {
+                
+                return new NotFoundError("Password didn't match")
+
+            }
+
+            return token
+
+        } catch (error) {
+            
+            throw error
+
+        }
+
+    }
+
+
+    //  Method that it's going to find any user with the matched email
+
+    async getUserByEmail(email){
+
+        try {
+            
+            const user = await this.userRepository.buscarUsuarioPorCorreo(email)
+
+            if (user.length < 1) {
+                
+                return new NotFoundError('User not found')
+
+            }
+
+            return user
+
+        } catch (error) {
+            
+            throw error
+
+        }
+
+    }
+
+
+    //  Method that it's going to insert a new user in the database
+
+    async insertUser(data){
+
+        try {
+            
+            const user = await this.userRepository.insertarUsuario(data)
+
+            return user
+
+        } catch (error) {
+            
+            throw error
+
+        }
+
+    }
+
+
+    //  Method that it's going to delete a user from the database
+
+    async deleteUser(id){
+
+        try {
+            
+            const user = await this.userRepository.eliminarUsuario(id)
+
+            return user
+
+        } catch (error) {
+            
+            throw error
+
+        }
+
+    }
+
+
+    //  Method that it's going to update something from a user in the database
+
+    async updateUser(data){
+
+        try {
+            
+            const user = await this.userRepository.modificarUsuario(data)
+
+            return user
+
+        } catch (error) {
+            
+            throw error
+
+        }
+
+    }
+
+    async updateUserArray(_id, Object){
+
+        try {
+            
+            const user = await this.userRepository.findByIdAndUpdateArrays(_id, Object)
+
+            return user
+
+        } catch (error) {
+            
+            throw error
+
+        }
+
+    }
+
+}
+
+module.exports = userService

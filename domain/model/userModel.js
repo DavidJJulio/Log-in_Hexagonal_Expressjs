@@ -1,31 +1,19 @@
 const { ObjectId } = require("mongodb");
 const ConnectToDatabase = require("../../infrastructure/database/mongodb");
 
-//  Define el modelo de usuario y la lógica de negocio independiente de la tecnología de persistencia.
+// Define el modelo de usuario y la lógica de negocio independiente de la tecnología de persistencia.
 class User {
 
 
 
-
-
-    /**
-     * Buscar un usuario por su MongoId.
-     * 
-     * @param {ObjectId} id - ObjectId en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-    
-    async buscarPorMongoId(id) {
+    // Encuentra un usuario por su ID.
+    async findById(id) {
 
         try {
             
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-
-
             //  Des-estructuramos res pq solo esperamos un resultado
-
             const [res] = await collection.find(
                 
                 { _id: new ObjectId(id) }
@@ -33,52 +21,22 @@ class User {
             ).toArray();
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su MongoId",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error finding user by ID');
             
         }
     }
 
-
-
-
-
-
-    /**
-     * Buscar un usuario por su GoogleId.
-     * 
-     * @param {String} id - Id en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorGoogleId(id) {
+    async findByIdGoogle(id) {
 
         try {
             
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-
-
             //  Des-estructuramos res pq solo esperamos un resultado
-
             const [res] = await collection.find(
                 
                 { google_id: id }
@@ -86,52 +44,23 @@ class User {
             ).toArray();
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su GoogleId",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error finding user by ID');
             
         }
     }
 
-
-
-
-
-
-    /**
-     * Buscar un usuario por su GithubId.
-     * 
-     * @param {String} id - Id en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorGithubId(id) {
+    
+    async findByIdGithub(id) {
 
         try {
             
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-
-
             //  Des-estructuramos res pq solo esperamos un resultado
-
             const [res] = await collection.find(
                 
                 { github_id: id }
@@ -139,52 +68,22 @@ class User {
             ).toArray();
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su GithubId",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error finding user by ID');
             
         }
     }
 
-
-
-
-
-
-    /**
-     * Buscar un usuario por su DiscordId.
-     * 
-     * @param {String} id - Id en formato string
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async buscarPorDiscordId(id) {
+    async findByIdDiscord(id) {
 
         try {
             
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-
-
             //  Des-estructuramos res pq solo esperamos un resultado
-
             const [res] = await collection.find(
                 
                 { discord_id: id }
@@ -192,155 +91,73 @@ class User {
             ).toArray();
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al buscar usuario por su DiscordId",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error finding user by ID');
             
         }
     }
 
-
-
-
     
 
-    /**
-     * Insertar un nuevo usuario en la base de datos.
-     * 
-     * @param {Object} userData - Objeto con los datos del usuario
-     * @returns {Promise<Object>} Objeto con los detalles de la inserccion
-     * @error Objeto con detalles del error
-     */
-
-    async InsertarUsuario(userData) {
-
+    // Inserta un nuevo usuario en la base de datos.
+    async insert(userData) {
         try {
 
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
 
+            const res = await collection.insertMany(
 
-            const res = await collection.insertOne(
-
-                userData
+                [userData]
 
             );
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al insertar un usuario a la base de datos",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error inserting user');
 
         }
     }
 
 
 
-
-
-
-    /**
-     * Actualiza un usuario en base a su MongoId
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @param {Object} updateData - Objeto con la llave y el valor a actualiza ({"llave": "String", "valor": "String"})
-     * @returns {Promise<Object>} Objeto con los datos del usuario
-     * @error Objeto con detalles del error
-     */
-
-    async actualizarUsuarioPorMongoId(id, updateData) {
-
+    // Actualiza un usuario por su ID. Si no existe, puede crear uno nuevo (upsert).
+    async findByIdAndUpdate(id, updateData, upsert) {
         try {
 
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-            
 
             const res = await collection.updateOne(
 
                 { _id: new ObjectId(id) },
                 { $set: updateData },
+                { upsert: upsert }
 
             );
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al actualizar usuario en la base de datos",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error updating user');
 
         }
     }
 
 
-
-
-
-
-    /**
-     * Inserta elementos en cualquier atributo tipo array que un usuario tenga. Por ejemplo si tiene una llave {favorites: []}
-     * este metodo insertara elementos en el array de favorites
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @param {Object} Object - Objeto con la llave y un array de objetos a insertar ({"llave": "String", "Array": []})
-     * @returns {Promise<Object>} Objeto con los detalles de la operacion realizada
-     * @error Objeto con detalles del error
-     */
-
-    async actualizarLlavesArray_Push(id, Object) {
-
+    async findByIdAndUpdateArraysModel(id, Object) {
         try {
 
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-
 
             const res = await collection.updateOne(
 
@@ -350,51 +167,20 @@ class User {
             );
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al actualizar usuario en la base de datos",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error updating user');
 
         }
     }
 
-
-
-
-
-
-    /**
-     * Extrae elementos en cualquier atributo tipo array que un usuario tenga. Por ejemplo si tiene una llave {favorites: []}
-     * este metodo extraera elementos en el array de favorites
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @param {Object} Object - Objeto con la llave y un array de objetos a eliminar ({"llave": "String", "Array": []})
-     * @returns {Promise<Object>} Objeto con los detalles de la operacion realizada
-     * @error Objeto con detalles del error
-     */
-
-    async actualizarLlavesArray_Pull(id, Object) {
-
+    async findByIdAndUpdateArraysPullModel(id, Object) {
         try {
 
             let obj = ConnectToDatabase.instanceConnect;
             const collection = obj.db.collection('users');
-
 
             const res = await collection.updateOne(
 
@@ -404,44 +190,19 @@ class User {
             );
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al actualizar usuario en la base de datos",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error updating user');
 
         }
     }
 
 
 
-
-
-
-    /**
-     * Elimina a un usuario de la base de datos en base a su MongoId
-     * 
-     * @param {ObjectId} id - Id en formato string.
-     * @returns {Promise<Object>} Objeto con los detalles de la operacion realizada
-     * @error Objeto con detalles del error
-     */
-
-    async eliminarUsuarioPorMongoId(id) {
-
+    // Elimina un usuario por su ID.
+    async findByIdAndDelete(id) {
         try {
 
             let obj = ConnectToDatabase.instanceConnect;
@@ -454,25 +215,11 @@ class User {
             );
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al eliminar usuario en la base de datos",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error deleting user');
 
         }
     }
@@ -481,16 +228,8 @@ class User {
 
 
 
-
-    /**
-     * Realiza una consulta aggregate
-     * 
-     * @param {Object} data - Array con la consulta aggregate.
-     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
-     * @error Objeto con detalles del error
-     */
-
-    async consultaAggregate(data) {
+    // Realiza una agregación de datos en la colección de users.
+    async aggregateData(data) {
         try {
 
             let obj = ConnectToDatabase.instanceConnect;
@@ -503,25 +242,11 @@ class User {
             ).toArray();
 
 
-            return {
-
-                success: true,
-                data: res
-
-            }
-            
+            return res;
 
         } catch (error) {
 
-            return {
-
-                success: false,
-                message: "Error al realizar la consulta aggregate",
-                location: "UserModel",
-                details: error.details,
-                stack: error.stack
-
-            }
+            throw new Error('Error aggregating data');
 
         }
     }
@@ -529,7 +254,5 @@ class User {
 
 
 }
-
-
 
 module.exports = User;

@@ -1,10 +1,11 @@
 // Configuración y puesta en marcha del servidor Express.
 const express = require('express');
-const { jsonParseErrorHandler } = require('./middlewares/errorHandling');
+const { jsonParseErrorHandler } = require('./middlewares/errorHandler');
 const { limiTotal } = require('./middlewares/rateLimit');
 const session = require('express-session');
-const passport = require('../application/auth/passport');
+const passport = require('../application/authentication/passport');
 const cors = require('cors');
+const userRoutes = require('../application/routes/userRoutes')
 
 
 
@@ -18,7 +19,7 @@ const createServer = () => {
     app.use(cors({
       origin: 'http://localhost:4321',
       credentials: true
-}));
+    }));
 
 
     //  jsonParseErrorHandler: 
@@ -44,7 +45,6 @@ const createServer = () => {
     //  Estas sesiones no son accesibles por el usuario ni el front-end, solo podemos acceder desde el backend, lo que las hace seguras y convenientes.
     //  Tener estas sesiones nos permite acceder a datos del usuario activo, sin necesidad de que el front-end envie datos.
 
-    //  Aun asi, no el proyecto se realizara con JWT
 
     app.use(session({
         secret: process.env.KEY_SECRET,
@@ -69,7 +69,7 @@ const createServer = () => {
 
     //  Aqui utilizamos todas las rutas que tenemos definidas
 
-    //  De momento ninguna :p
+    app.use('/user', userRoutes)
     
     return app;
 };
