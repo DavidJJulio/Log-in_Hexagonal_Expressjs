@@ -24,6 +24,7 @@ class UserDTO {
         const result = {
                 
             google_id: userData.sub,
+            identifier: userData.email,
             nickName: userData.name,
             password: null,
             email: userData.email,
@@ -57,6 +58,7 @@ class UserDTO {
         const result = {
                 
             github_id: userData.id,
+            identifier: userData.email,
             nickName: userData.login,
             password: null,
             email: userData.email,
@@ -89,6 +91,7 @@ class UserDTO {
         const result = {
                 
             discord_id: userData.id,
+            identifier: userData.email,
             nickName: userData.username,
             password: null,
             email: userData.email,
@@ -107,3 +110,6 @@ class UserDTO {
     
 
 }
+
+
+module.exports = UserDTO
