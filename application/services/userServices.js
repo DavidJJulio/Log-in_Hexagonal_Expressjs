@@ -391,4 +391,158 @@ class UserServices {
     }
 
 
+
+
+
+
+    /**
+     * Realiza una consulta aggregate
+     * 
+     * @param {Object} data - Objeto con los datos del usuario.
+     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
+     * @error Objeto con detalles del error
+     */
+
+    async buscarUsuario_PorSuCorreo_QueNoSeaAutenticadoExternamente(data) {
+
+        try {
+
+            const query = [
+
+                {
+
+                  $match: {
+
+                    email: data.email,
+                    type: "usuario"     
+
+                  }
+
+                }
+
+              ]
+
+            const res = await this.userModel.consultaAggregate(query);
+
+            return res;
+
+        } catch (error) {
+
+            return {
+
+                success: false,
+                message: "Error al realizar consulta aggregate",
+                location: "UserServices",
+                details: error.details,
+                stack: error.stack
+            }
+
+        }
+
+    }
+
+
+
+
+
+
+    /**
+     * Realiza una consulta aggregate
+     * 
+     * @param {Object} data - Objeto con los datos del usuario.
+     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
+     * @error Objeto con detalles del error
+     */
+
+    async buscarUsuario_PorUsuario_QueNoSeaAutenticadoExternamente(data) {
+
+        try {
+
+            const query = [
+
+                {
+
+                  $match: {
+
+                    nickName: data.nickName,     
+
+                  }
+
+                }
+
+              ]
+
+            const res = await this.userModel.consultaAggregate(query);
+
+            return res;
+
+        } catch (error) {
+
+            return {
+
+                success: false,
+                message: "Error al realizar consulta aggregate",
+                location: "UserServices",
+                details: error.details,
+                stack: error.stack
+            }
+
+        }
+
+    }
+
+
+
+
+
+
+    /**
+     * Realiza una consulta aggregate
+     * 
+     * @param {Object} data - Objeto con los datos del usuario.
+     * @returns {Promise<Object?Array>} Objeto o Array con el resultado de la operacion aggregate
+     * @error Objeto con detalles del error
+     */
+
+    async buscarUsuario_PorSuIdentificador_QueNoSeaAutenticadoExternamente(data) {
+
+        try {
+
+            const query = [
+
+                {
+
+                  $match: {
+
+                    identifier: data.identifier,     
+
+                  }
+
+                }
+
+              ]
+
+            const res = await this.userModel.consultaAggregate(query);
+
+            return res;
+
+        } catch (error) {
+
+            return {
+
+                success: false,
+                message: "Error al realizar consulta aggregate",
+                location: "UserServices",
+                details: error.details,
+                stack: error.stack
+            }
+
+        }
+
+    }
+
+
 }
+
+
+module.exports = UserServices
